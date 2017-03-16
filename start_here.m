@@ -1,3 +1,8 @@
+% In this code, you will create fake 2D data and use clustering evaluation metrics
+% to see how each will perform with respect to the fake data
+% You can use real data in the form data = n x p where n is the observations and p are the
+% variables.
+% Fahd Alhazmi
 
 % This block will prompt the user to create fake 2D points to evaluate them later on
  
@@ -12,8 +17,10 @@ title(...
     'After adding all points, press ENTER'}...
     ,'FontSize',15)
 [x, y] = getpts;
-artdata=[x,y];
+data=[x,y];
 disp('Coordinates are now saved in ''artdata'' variable')
+
+
 
 % create an output folder, unless there is already one
 
@@ -22,16 +29,15 @@ if ~exist(writepath)
     mkdir(writepath);
 end
 
-
-krange=[2:20]; 			% choose the range of clusters you want to evaluate
-dist='sqEuclidean';		% choose the distance metric. See the help file for kmeans or other algorithms
-runs=100;				% how many runs for each choice of clusters; the more the better CI are 
-additionals=false;      % this will run additional similarity metrics at each k and will take additional time
+krange=[2:20];  % choose the range of clusters you want to evaluate
+dist='sqEuclidean';  % choose the distance metric. See the help file for kmeans or other algorithms
+runs=100;  % how many runs for each choice of clusters; the more the better CI are 
+additionals=false;   % this will run additional similarity metrics at each k and will take additional time
 
 [sMean,sStd,qualVal,qualStd,...
     subj_stab_all,...
     jc,jd,ri,vi,nmi]= ...
-    eval_clustrs(Fjs, krange, dist, runs,additionals);
+    eval_clustrs(data, krange, dist, runs,additionals);
 subj_stab_all=subj_stab_all(:,2:end);
 
 % just in case additionals are set to true
